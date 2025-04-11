@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DMR Investors</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background-color: #0a0a0a; /* Changed background color */
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+/* Add a media query for mobile screens */
+@media screen and (max-width: 768px) {
+  .strategies-grid {
+    grid-template-columns: 1fr; /* Change grid to single column on mobile */
+  }
+
+  /* Ensure strategy boxes are not overflowing */
+  .strategy-box {
+    padding: 20px;
+    height: auto; /* Allow height to adjust based on content */
+  }
+}
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #0a0a0a;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .header .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.75rem;
+      color: #D4AF37;
+      text-decoration: none;
+    }
+
+    .header nav a {
+      font-size: 1.1rem;
+      color: #fff;
+      margin-left: 2rem;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .header nav a:hover {
+      color: #D4AF37;
+      transform: scale(1.1);
+    }
+
+    .hero {
+      padding: 5rem 2rem;
+      background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.07), transparent 60%), #0a0a0a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      margin-top: 60px;
+    }
+
+    .hero-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      width: 100%;
+      gap: 2rem;
+    }
+
+    .hero-content {
+      flex: 1 1 500px;
+      text-align: left;
+    }
+
+    .hero-content h1 {
+      font-size: 3rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .hero-content h1 .highlight {
+      color: #D4AF37;
+    }
+
+    .hero-content p {
+      font-size: 1.15rem;
+      margin-bottom: 2rem;
+      color: #ddd;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-gold,
+    .btn-outline {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #d4af37, #e6c75e);
+      color: #0a0a0a;
+      box-shadow: 0 0 10px #d4af37a0;
+    }
+
+    .btn-gold:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #d4af37c0;
+    }
+
+    .btn-outline {
+      border: 2px solid #d4af37;
+      color: #d4af37;
+    }
+
+    .btn-outline:hover {
+      background: #d4af37;
+      color: #0a0a0a;
+    }
+
+    .currency-meter {
+      flex: 1 1 350px;
+      background: #1a1a1a;
+      padding: 1.5rem;
+      border-radius: 16px;
+      box-shadow: 0 0 15px #d4af3740;
+    }
+
+    .currency-meter h3 {
+      color: #d4af37;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .currency-bar {
+      margin-bottom: 1rem;
+    }
+
+    .currency-bar span {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-weight: bold;
+    }
+
+    .currency-bar .bar {
+      height: 8px;
+      border-radius: 4px;
+      background: #d4af37;
+      width: 0;
+      transition: width 0.6s ease;
+    }
+
+    .currency-bar[data-strength="85"] .bar { width: 85%; }
+    .currency-bar[data-strength="65"] .bar { width: 65%; }
+    .currency-bar[data-strength="72"] .bar { width: 72%; }
+    .currency-bar[data-strength="45"] .bar { width: 45%; }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 1rem;
+      font-size: 0.9rem;
+      color: #ccc;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .strategies {
+      padding: 5rem 2rem;
+      background-color:  #0a0a0a;
+      text-align: center;
+    }
+
+    .strategies h2 {
+      font-size: 2.5rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      color: #D4AF37;
+      margin-bottom: 2rem;
+    }
+
+    .strategy-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .strategy {
+      background-color: #333;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 350px;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .strategy h3 {
+      font-size: 1.8rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      color: #D4AF37;
+      margin-bottom: 1rem;
+    }
+
+    .strategy p {
+      font-size: 1.1rem;
+      color: #ddd;
+      margin-bottom: 1.5rem;
+    }
+
+    .strategy ul {
+      list-style-type: none;
+      padding: 0;
+      margin-bottom: 2rem;
+    }
+
+    .strategy ul li {
+      font-size: 1.1rem;
+      color: #ddd;
+      margin-bottom: 0.5rem;
+    }
+
+    .strategy a {
+      background-color:  #0a0a0a;
+      color: #0a0a0a;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .strategy a:hover {
+      background-color:  #0a0a0a;
+      transform: scale(1.05);
+    }
+
+    .about {
+      padding: 5rem 2rem;
+      background-color:  #0a0a0a;
+      text-align: center;
+    }
+
+    .about h2 {
+      font-size: 2.5rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      color: #D4AF37;
+      margin-bottom: 1rem;
+    }
+
+    .about p {
+      font-size: 1.15rem;
+      color: #ddd;
+      margin-bottom: 1rem;
+    }
+
+    .about ul {
+      list-style-type: none;
+      padding: 0;
+      font-size: 1.2rem;
+      color: #ddd;
+    }
+
+    .about ul li {
+      margin-bottom: 0.75rem;
+    }
+
+    #contact {
+      padding: 5rem 2rem;
+      background-color: #0a0a0a;
+      text-align: center;
+      color: #fff;
+    }
+
+    .footer {
+      padding: 2rem;
+      background-color: #0a0a0a;
+      color: #fff;
+      text-align: center;
+      font-size: 1rem;
+      border-top: 1px solid #d4af37;
+    }
+
+    .footer a {
+      color: #d4af37;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<header class="header px-6 max-w-7xl mx-auto flex justify-between items-center py-4">
+  <a href="#" class="logo text-white text-xl font-bold">DMR Investors</a>
+
+</header>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <h1>Unlock Your Trading Potential with <span class="highlight">DMR Investors</span></h1>
+        <p>Learn powerful strategies to maximize your Forex trading success with proven methods designed for every trader.</p>
+        <div class="cta-buttons">
+          <a href="#strategies" class="btn-gold">Start Trading</a>
+          <a href="#about" class="btn-outline">Learn More</a>
+        </div>
+      </div>
+      <div class="currency-meter">
+        <h3>Currency Strength Meter</h3>
+        <div class="currency-bar" data-strength="85">
+          <span>USD</span>
+          <div class="bar"></div>
+        </div>
+        <div class="currency-bar" data-strength="65">
+          <span>EUR</span>
+          <div class="bar"></div>
+        </div>
+        <div class="currency-bar" data-strength="72">
+          <span>GBP</span>
+          <div class="bar"></div>
+        </div>
+        <div class="currency-bar" data-strength="45">
+          <span>JPY</span>
+          <div class="bar"></div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator">Scroll Down</div>
+  </section>
+<section id="strategies" style="padding: 50px 0; background-color: #0A0A0A; color: #F5F5F5;">
+    <div class="container" style="max-width: 13000px; margin-left: auto; margin-right: 0; padding: 0 20px;">
+        <h2 style="text-align: center; font-family: 'Montserrat', sans-serif; color: #D4AF37;">Our Strategies</h2>
+
+        <div class="strategies-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; padding: 20px;">
+            <!-- Strategy 1: London Trendline Strategy -->
+            <div class="strategy-box" style="background-color: #1a1a1a; border-radius: 10px; padding: 30px; border: 2px solid #D4AF37; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); height: 350px;">
+                <h3 style="color: #D4AF37;">London Trendline Strategy</h3>
+                    <ul style="color: #F5F5F5; list-style-type: none; padding: 0;">
+                   <li><strong>Timeframe:</strong> 5-minute</li>
+                    <li><strong>Risk-to-Reward:</strong> 1:2</li>
+                    <li><strong>Target:</strong> Trendline break after London open</li>
+                </ul>
+               <a href="https://dmrinvestors.bigcartel.com/product/london-trend" class="btn-gold" target="_blank">Buy</a>
+            </div>
+
+            <!-- Strategy 2: US 30 Strategy -->
+            <div class="strategy-box" style="background-color: #1a1a1a; border-radius: 10px; padding: 30px; border: 2px solid #D4AF37; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); height: 350px;">
+                <h3 style="color: #D4AF37;">US 30 Strategy</h3>
+                
+                <ul style="color: #F5F5F5; list-style-type: none; padding: 0;">
+                    <li><strong>Timeframe:</strong> 1-hour chart</li>
+                    <li><strong>Risk-to-Reward:</strong> 1:3</li>
+                    <li><strong>Target:</strong> Quick entries during high volatility</li>
+                </ul>
+               <a href="https://dmrinvestors.bigcartel.com/product/us30" class="btn-gold" target="_blank">Buy</a>
+            </div>
+
+         
+    </div>
+
+
+</section>
+
+
+  <section class="about" id="about">
+    <h2>Why Choose Us</h2>
+    <p>DMR Investors brings decades of experience in the Forex market, offering strategies backed by professional analysis and real-world results.</p>
+    <ul>
+      <li>Proven success rate</li>
+      <li>Expert-designed strategies</li>
+      <li>Tailored guidance for all levels</li>
+
+
+  </section>
+
+<section id="testimonies" style="padding: 50px 0; background-color: #0a0a0a; color: #F5F5F5;">
+    <div class="container">
+        <h2 style="text-align: center; font-family: 'Montserrat', sans-serif; color: #D4AF37;">What Our Clients Say</h2>
+
+        <div class="testimonials-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; padding: 20px;">
+            <!-- Testimony 1 -->
+            <div class="testimony-box" style="background-color: #1a1a1a; border-radius: 10px; padding: 30px; border: 2px solid #D4AF37; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+                <p style="font-style: italic; color: #F5F5F5;">"The Golden Trend Elite strategy completely transformed my approach to trading. The golden ratio levels are uncannily accurate at predicting reversals. My win rate increased from 45% to over 70% within the first month."</p>
+                <h4 style="text-align: right; color: #D4AF37;">Michael R.</h4>
+                <p style="text-align: right; color: #F5F5F5;">Retail Trader • New York, USA</p>
+            </div>
+
+            <!-- Testimony 2 -->
+            <div class="testimony-box" style="background-color: #1a1a1a; border-radius: 10px; padding: 30px; border: 2px solid #D4AF37; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+                <p style="font-style: italic; color: #F5F5F5;">"As someone managing a small fund, I needed something reliable and consistent. DMR's Momentum Breakout strategy provides exactly that - clear signals with impressive risk-to-reward ratios. Their support team is incredibly responsive too."</p>
+                <h4 style="text-align: right; color: #D4AF37;">Sarah J.</h4>
+                <p style="text-align: right; color: #F5F5F5;">Fund Manager • London, UK</p>
+            </div>
+
+            <!-- Testimony 3 -->
+            <div class="testimony-box" style="background-color: #1a1a1a; border-radius: 10px; padding: 30px; border: 2px solid #D4AF37; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+                <p style="font-style: italic; color: #F5F5F5;">"I've bought many trading strategies over the years, but DMR's are the only ones I've stuck with long-term. The Reversal Hunter in particular has been exceptional for catching major market turns. Worth every penny."</p>
+                <h4 style="text-align: right; color: #D4AF37;">David L.</h4>
+                <p style="text-align: right; color: #F5F5F5;">Full-time Trader • Singapore</p>
+            </div>
+
+            <!-- Testimony 4 -->
+            <div class="testimony-box" style="background-color: #1a1a1a; border-radius: 10px; padding: 30px; border: 2px solid #D4AF37; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+                <p style="font-style: italic; color: #F5F5F5;">"Even with my limited time to trade, I've been able to implement these strategies effectively. The trade alerts and clear entry/exit rules make it simple to execute even during busy days. My account has grown 62% in just 6 months."</p>
+                <h4 style="text-align: right; color: #D4AF37;">Elena K.</h4>
+                <p style="text-align: right; color: #F5F5F5;">Part-time Trader • Toronto, Canada</p>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="bg-yellow-500 text-black py-16 px-6 text-center rounded-xl shadow-lg mt-12">
+  <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Elevate Your Trading?</h2>
+  <p class="text-lg mb-6">Join hundreds of traders already using DMR strategies to stay ahead of the market.</p>
+  <a href="#get-started" class="inline-block bg-black text-yellow-400 font-semibold px-6 py-3 rounded-lg hover:bg-gray-800 transition">
+   
+  </a>
+</div>
+
+ 
+</section>
+
+
+
+
+
+  <footer class="footer">
+    <p>&copy; 2025 DMR Investors. All rights reserved.</p>
+   
+  </footer>
+</body>
+</html>
